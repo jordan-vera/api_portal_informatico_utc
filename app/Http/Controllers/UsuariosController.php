@@ -7,71 +7,36 @@ use Illuminate\Http\Request;
 
 class UsuariosController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function login($usuario, $clave)
     {
-        $usuarios = Usuarios::all();
-        return $usuarios;
+        $pass = urldecode($clave);
+        $correo = urldecode($usuario);
+        $datos = Usuarios::where('email', $correo)->where('clave', md5($pass))->first();
+        if ($datos !== null) {
+            $idusuario = $datos->idusuario;
+            return array("response" => "done", "idusuario" => $idusuario);
+        } else {
+            return array("response" => "error");
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $usuario = Usuarios::create($request->all());
         return $usuario;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\usuarios  $usuarios
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Usuarios $usuarios)
+    public function find($idusuario)
     {
-        //
+        $usuario = Usuarios::find($idusuario);
+        return $usuario;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\usuarios  $usuarios
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Usuarios $usuarios)
+    public function updatess(Request $request, $idusuario)
     {
-        //
+        $usuario = Usuarios::find($idusuario);
+        $usuario->update($request->all());
+        return ["response"=>"done"];
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\usuarios  $usuarios
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Usuarios $usuarios)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\usuarios  $usuarios
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Usuarios $usuarios)
-    {
-        //
-    }
 }

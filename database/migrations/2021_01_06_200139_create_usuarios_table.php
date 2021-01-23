@@ -14,20 +14,15 @@ class CreateUsuariosTable extends Migration
     public function up()
     {
         Schema::create('usuarios', function (Blueprint $table) {
-            $table->id();
+            $table->integer('idusuario')->autoIncrement();
+            $table->string('nombres', 60);
+            $table->string('email', 60);
+            $table->string('clave', 80);
             $table->timestamps();
-            $table->string('nombres')->unique();
-            $table->string('email')->unique();
-            $table->string('clave')->nullable();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
+    public function down() 
     {
         Schema::dropIfExists('usuarios');
     }

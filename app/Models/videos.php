@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Usuarios extends Model
+class videos extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'idusuario';
-    protected $fillable = ["nombres", "email", "clave"];
+    protected $primaryKey = 'idvideo';
+    protected $fillable = ["titulo", "descripcion", "video_url"];
 }
